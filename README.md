@@ -1,7 +1,7 @@
 # RandomPlayerHead
 Spawn random (or optionally specific) player heads from your own list of heads
 
-Heads not included! Put them in a directory named "heads" in your plugin's data folder. It should contain a list of .yml files with the following structure:
+Heads not included! Put them in a directory named "heads" in your plugin's data folder. It should contain one or more YAML files, each with a list of the following structure.
 
 ```yaml
 heads:
