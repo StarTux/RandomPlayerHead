@@ -1,0 +1,15 @@
+name: RandomPlayerHead
+description: Spawn in random player heads
+author: StarTux
+version: 0.1
+main: com.winthier.rph.RandomPlayerHeadPlugin
+depend: []
+commands:
+  randomplayerhead:
+    aliases: [ rph ]
+    description: Spawn in a random player head
+    usage: /<command> <player> [name]
+permissions:
+  rph.rph:
+    description: Use /randomplayerhead
+    default: op
