@@ -12,3 +12,9 @@ heads:
 ```
 
 Heads will be loaded when the plugin is enabled or you type '/rph -reload'.
+
+Commands:
+- __/rph &lt;Player Name&gt;__ Give the named player a random head.
+- __/rph &lt;Player Name&gt; &lt;Head Name&gt;__ Give a player specific heads. __Beware!__ *All* heads with the same name will be spawned!
+- __/rph -reload__ Reload the heads files.
+- __/rph -search &lt;Search Term&gt;__ Search for heads by name.
