@@ -9,6 +9,7 @@ commands:
     aliases: [ rph ]
     description: Spawn in a random player head
     usage: /<command> <player> [name]
+    permission: rph.rph
 permissions:
   rph.rph:
     description: Use /randomplayerhead
