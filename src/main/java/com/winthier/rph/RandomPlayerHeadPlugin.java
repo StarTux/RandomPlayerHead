@@ -96,6 +96,7 @@ public class RandomPlayerHeadPlugin extends JavaPlugin
         if (args.length == 0) {
             return false;
         } else if (args[0].equals("-search") && args.length > 1) {
+            // Search heads database.
             StringBuilder sb = new StringBuilder(args[1]);
             for (int i = 2; i < args.length; ++i) sb.append(" ").append(args[i]);
             String term = sb.toString();
@@ -115,9 +116,11 @@ public class RandomPlayerHeadPlugin extends JavaPlugin
                 sender.sendMessage(sb.toString());
             }
         } else if (args[0].equals("-reload") && args.length == 1) {
+            // Reload configuration.
             loadHeads();
             sender.sendMessage("Loaded " + heads.size() + " heads.");
         } else if (args.length == 1) {
+            // Random head for a player.
             if (heads.isEmpty()) {
                 sender.sendMessage("No heads loaded");
                 return true;
@@ -130,7 +133,28 @@ public class RandomPlayerHeadPlugin extends JavaPlugin
             Head head = randomHead();
             head.give(player);
             sender.sendMessage("Head spawned in: " + head.getName());
+        } else if (args[0].equals("-all") && args.length > 1) {
+            // Give all heads matching name to yourself.
+            if (heads.isEmpty()) {
+                sender.sendMessage("No heads loaded");
+                return true;
+            }
+            Player player = sender instanceof Player ? (Player)sender : null;
+            if (player == null) {
+                sender.sendMessage("Player expected.");
+                return true;
+            }
+            StringBuilder sb = new StringBuilder(args[1]);
+            for (int i = 2; i < args.length; ++i) sb.append(" ").append(args[i]);
+            String name = sb.toString();
+            List<Head> heads = findHeadsExact(name);
+            for (Head head: heads) {
+                head.give(player);
+                sender.sendMessage("Gave head \"" + name + "\" to " + player.getName());
+            }
+            sender.sendMessage("" + heads.size() + " heads given.");
         } else if (args.length >= 2) {
+            // Give one head matching name to a player.
             if (heads.isEmpty()) {
                 sender.sendMessage("No heads loaded");
                 return true;
@@ -144,11 +168,12 @@ public class RandomPlayerHeadPlugin extends JavaPlugin
             for (int i = 2; i < args.length; ++i) sb.append(" ").append(args[i]);
             String name = sb.toString();
             List<Head> heads = findHeadsExact(name);
-            for (Head head: heads) {
-                head.give(player);
-                sender.sendMessage("Gave head \"" + name + "\" to " + player.getName());
+            if (heads.isEmpty()) {
+                sender.sendMessage("Head not found: " + name);
+                return true;
             }
-            sender.sendMessage("" + heads.size() + " heads given.");
+            heads.get(0).give(player);
+            sender.sendMessage("Gave head \"" + name + "\" to " + player.getName());
         } else {
             return false;
         }

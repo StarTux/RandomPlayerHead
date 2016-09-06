@@ -8,7 +8,11 @@ commands:
   randomplayerhead:
     aliases: [ rph ]
     description: Spawn in a random player head
-    usage: /<command> <player> [name]
+    usage: |-
+      /<command> <player> [name] - Spawn in one (random) head.
+      /<command> -search <name> - Search heads database.
+      /<command> -all <name> - Spawn in all matching heads.
+      /<command> -reload - Reload config files.
     permission: rph.rph
 permissions:
   rph.rph:
