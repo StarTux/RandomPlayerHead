@@ -119,7 +119,9 @@ public final class RandomPlayerHeadPlugin extends JavaPlugin {
             Head head = randomHead();
             head.give(player);
             sender.sendMessage("Head spawned in: " + head.getName());
-        } else if (args[0].equals("-all") && args.length > 1) {
+        } else if ((args[0].equals("-all") || args[0].equals("-allm")) && args.length > 1) {
+            boolean match = false;
+            if (args[0].endsWith("m")) match = true;
             // Give all heads matching name to yourself.
             if (heads.isEmpty()) {
                 sender.sendMessage("No heads loaded");
@@ -133,7 +135,12 @@ public final class RandomPlayerHeadPlugin extends JavaPlugin {
             StringBuilder sb = new StringBuilder(args[1]);
             for (int i = 2; i < args.length; ++i) sb.append(" ").append(args[i]);
             String name = sb.toString();
-            List<Head> headList = findHeadsExact(name);
+            List<Head> headList;
+            if (match) {
+                headList = findHeads(name);
+            } else {
+                headList = findHeadsExact(name);
+            }
             for (Head head: headList) {
                 head.give(player);
                 sender.sendMessage("Gave head \"" + name + "\" to " + player.getName());
