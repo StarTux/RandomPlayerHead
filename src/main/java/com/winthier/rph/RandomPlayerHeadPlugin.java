@@ -24,6 +24,7 @@ public final class RandomPlayerHeadPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         loadHeads();
+        instance = this;
     }
 
     void loadHeads() {

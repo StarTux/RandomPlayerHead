@@ -4,8 +4,10 @@ import com.winthier.custom.util.Dirty;
 import lombok.Value;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.UUID;
 
@@ -26,6 +28,8 @@ final class Head {
     }
 
     ItemStack toItemStack(){
-        return Dirty.setSkullOwner(new ItemStack(Material.SKULL_ITEM), getName(), UUID.fromString(id), getTexture());
+        ItemStack item = new ItemStack(Material.SKULL_ITEM, 1);
+        item.setDurability((short)3);
+        return Dirty.setSkullOwner(item, getName(), UUID.fromString(getId()), getTexture());
     }
 }
