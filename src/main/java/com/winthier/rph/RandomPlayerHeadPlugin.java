@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+
+import lombok.Getter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -15,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class RandomPlayerHeadPlugin extends JavaPlugin {
+    @Getter static RandomPlayerHeadPlugin instance;
     private List<Head> heads = new ArrayList<>();
     private final Random random = new Random(System.currentTimeMillis());
 
