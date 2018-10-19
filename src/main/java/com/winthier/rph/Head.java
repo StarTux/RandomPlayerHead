@@ -11,7 +11,7 @@ final class Head {
     final String texture;
 
     void give(Player player) {
-        String cmd = "minecraft:give %s minecraft:player_head 1 {display:{Name:\"%s\"},SkullOwner:{Id:\"%s\",Name:\"%s\",Properties:{textures:[{Value:\"%s\"}]}}}";
+        String cmd = "minecraft:give %s minecraft:player_head{display:{Name:\"%s\"},SkullOwner:{Id:\"%s\",Name:\"%s\",Properties:{textures:[{Value:\"%s\"}]}}}";
         consoleCommand(cmd, player.getName(), name, id, name, texture);
     }
 
