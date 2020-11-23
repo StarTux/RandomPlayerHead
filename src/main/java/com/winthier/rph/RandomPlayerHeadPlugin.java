@@ -23,6 +23,7 @@ public final class RandomPlayerHeadPlugin extends JavaPlugin {
         loadHeads();
         new RandomPlayerHeadCommand(this).enable();
         new MakePlayerHeadCommand(this).enable();
+        new HeadCommand(this).enable();
     }
 
     public void loadHeads() {

@@ -22,8 +22,15 @@ commands:
     aliases: [mph]
     description: Make a head from its give code
     usage: |-
-      /mph <name> <id> <texture> - Spawn in head
+      /mph <name> <id> <texture> - Spawn the head
     permission: rph.mph
+
+  head:
+    aliases: []
+    description: Get the head of an actual player
+    usage: |-
+      /head <name> - Spawn the head
+    permission: rph.head
 
 permissions:
   rph.rph:
@@ -31,4 +38,7 @@ permissions:
     default: op
   rph.mph:
     description: Use /mph
+    default: op
+  rph.head:
+    description: Use /head
     default: op

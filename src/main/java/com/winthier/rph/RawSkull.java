@@ -87,7 +87,6 @@ public final class RawSkull {
             int at = in.lastIndexOf("}");
             in = in.substring(0, at + 1);
         }
-        System.out.println("DEBUG " + in);
         Gson gson = new Gson();
         return gson.fromJson(in, RawSkull.class);
     }
