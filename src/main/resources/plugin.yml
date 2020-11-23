@@ -6,17 +6,29 @@ api-version: 1.13
 website: https://cavetale.com
 main: com.winthier.rph.RandomPlayerHeadPlugin
 depend: []
+
 commands:
   randomplayerhead:
-    aliases: [ rph ]
+    aliases: [rph]
     description: Spawn in a random player head
     usage: |-
-      /<command> <player> [name] - Spawn in one (random) head.
-      /<command> -search <name> - Search heads database.
-      /<command> -all(m) <name> - Spawn in all matching heads.
-      /<command> -reload - Reload config files.
+      /rph <player> [name] - Spawn in one (random) head.
+      /rph -search <name> - Search heads database.
+      /rph -all(m) <name> - Spawn in all matching heads.
+      /rph -reload - Reload config files.
     permission: rph.rph
+
+  makeplayerhead:
+    aliases: [mph]
+    description: Make a head from its give code
+    usage: |-
+      /mph <name> <id> <texture> - Spawn in head
+    permission: rph.mph
+
 permissions:
   rph.rph:
-    description: Use /randomplayerhead
+    description: Use /rph
+    default: op
+  rph.mph:
+    description: Use /mph
     default: op
