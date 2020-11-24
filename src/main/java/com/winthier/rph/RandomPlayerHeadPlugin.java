@@ -35,6 +35,8 @@ public final class RandomPlayerHeadPlugin extends JavaPlugin {
         Set<Head> headSet = new HashSet<>();
         try {
             for (File file: headsFolder.listFiles()) {
+                if (!file.getName().endsWith(".yml")) continue;
+                if (!file.isFile()) continue;
                 int count = 0;
                 int errors = 0;
                 YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
@@ -45,6 +47,7 @@ public final class RandomPlayerHeadPlugin extends JavaPlugin {
                     String texture = section.getString("Texture");
                     String signature = section.getString("Signature");
                     if (name == null || id == null || texture == null) {
+                        getLogger().warning("name=" + name + " id=" + id + " texture=" + texture);
                         errors += 1;
                         continue;
                     }
