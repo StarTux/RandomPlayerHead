@@ -5,6 +5,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public final class Ripper {
     private Ripper() { }
@@ -77,6 +80,11 @@ public final class Ripper {
     }
 
     static boolean minecraftHeadsPage(PrintStream out, String url) {
+        // url = /custom-heads/CATEGORY/ID-NAME
+        String category = url;
+        category = split(category, '/', 1);
+        category = split(category, '/', 1);
+        category = split(category, '/', 0);
         url = "https://minecraft-heads.com" + url;
         System.err.println("url: " + url);
         String page;
@@ -86,8 +94,16 @@ public final class Ripper {
             e.printStackTrace();
             return false;
         }
+        List<String> tags = null;
         String[] lines = page.split("\n");
         for (String line : lines) {
+            if (line.startsWith("                                <a href=\"/custom-heads/tags/var/")) {
+                if (tags == null) tags = new ArrayList<>();
+                String tag = line;
+                tag = split(tag, '>', 1);
+                tag = split(tag, '<', 0);
+                tags.add(tag);
+            }
             if (!line.contains("/give @p minecraft:player_head{")) continue;
             if (!line.startsWith("        <textarea")) continue;
             if (!line.endsWith(" 1</textarea>")) continue;
@@ -102,6 +118,10 @@ public final class Ripper {
                 continue;
             }
             rawSkull.printAsYaml(out);
+            out.println("  Category: " + category);
+            if (tags != null) {
+                out.println("  Tags: [" + tags.stream().collect(Collectors.joining(", ")) + "]");
+            }
             return true;
         }
         return false;
