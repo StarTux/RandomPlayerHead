@@ -1,8 +1,10 @@
 package com.winthier.rph;
 
 import com.google.gson.Gson;
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -46,7 +48,14 @@ public final class RawSkull {
     }
 
     public String getName() {
-        return display.Name;
+        String name = display.Name;
+        if (name.startsWith("{")) {
+            Gson gson = new Gson();
+            @SuppressWarnings("unchecked")
+            Map<Object, Object> map = (Map<Object, Object>) gson.fromJson(name, Map.class);
+            if (map.containsKey("text")) name = (String) map.get("text");
+        }
+        return name;
     }
 
     public UUID getId() {
@@ -55,7 +64,7 @@ public final class RawSkull {
         if (o instanceof String) {
             return UUID.fromString((String) o);
         } else if (o instanceof List) {
-            @SuppressWarnings("Unchecked")
+            @SuppressWarnings("unchecked")
             List<Number> ls = (List<Number>) o;
             if (ls.size() == 5) ls = ls.subList(1, 5);
             if (ls.size() != 4) throw new IllegalStateException("Id.length=" + ls.size());
@@ -108,5 +117,15 @@ public final class RawSkull {
                              (int) (hi & LO),
                              (int) ((lo >> 32) & LO),
                              (int) (lo & LO));
+    }
+
+    public void printAsYaml(PrintStream out) {
+        out.println("- Name: " + getName());
+        out.println("  Id: " + getId());
+        out.println("  Texture: " + getTexture());
+        String signature = getSignature();
+        if (signature != null) {
+            out.println("  Signature: " + signature);
+        }
     }
 }
