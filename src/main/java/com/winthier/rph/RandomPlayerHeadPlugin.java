@@ -39,6 +39,7 @@ public final class RandomPlayerHeadPlugin extends JavaPlugin {
                 if (!file.isFile()) continue;
                 int count = 0;
                 int errors = 0;
+                int dupes = 0;
                 YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
                 for (Map<?, ?> map: config.getMapList("heads")) {
                     ConfigurationSection section = config.createSection("tmp", map);
@@ -54,9 +55,11 @@ public final class RandomPlayerHeadPlugin extends JavaPlugin {
                     Head head = new Head(name, UUID.fromString(id), texture, signature);
                     if (headSet.add(head)) {
                         count += 1;
+                    } else {
+                        dupes += 1;
                     }
                 }
-                getLogger().info("Loaded " + count + " heads, " + errors + " errors from " + file.getPath());
+                getLogger().info("Loaded " + count + " heads, " + errors + " errors, " + dupes + " dupes from " + file.getPath());
             }
         } catch (NullPointerException npe) {
             npe.printStackTrace();
