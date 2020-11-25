@@ -2,6 +2,7 @@ package com.winthier.rph;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -56,8 +57,11 @@ public final class RandomPlayerHeadCommand implements CommandExecutor {
                 return true;
             }
             Head head = plugin.randomHead();
-            head.give(player);
-            sender.sendMessage("Head spawned in: " + head.getName());
+            if (!head.give(player)) {
+                sender.sendMessage(ChatColor.RED + "Inventory full!");
+            } else {
+                sender.sendMessage("Head spawned in: " + head.getName());
+            }
         } else if ((args[0].equals("-all") || args[0].equals("-allm")) && args.length > 1) {
             boolean match = false;
             if (args[0].endsWith("m")) match = true;
@@ -80,11 +84,18 @@ public final class RandomPlayerHeadCommand implements CommandExecutor {
             } else {
                 headList = plugin.findHeadsExact(name);
             }
+            int count = 0;
             for (Head head: headList) {
-                head.give(player);
+                if (!head.give(player)) {
+                    sender.sendMessage(ChatColor.RED + "Inventory full!");
+                    break;
+                }
                 sender.sendMessage("Gave head \"" + name + "\" to " + player.getName());
+                count += 1;
             }
-            sender.sendMessage("" + headList.size() + " heads given.");
+            if (count > 0) {
+                sender.sendMessage("" + count + " heads given.");
+            }
         } else if (args.length >= 2) {
             // Give one head matching name to a player.
             if (plugin.getHeads().isEmpty()) {
@@ -104,8 +115,11 @@ public final class RandomPlayerHeadCommand implements CommandExecutor {
                 sender.sendMessage("Head not found: " + name);
                 return true;
             }
-            headList.get(0).give(player);
-            sender.sendMessage("Gave head \"" + name + "\" to " + player.getName());
+            if (!headList.get(0).give(player)) {
+                sender.sendMessage(ChatColor.RED + "Inventory full!");
+            } else {
+                sender.sendMessage("Gave head \"" + name + "\" to " + player.getName());
+            }
         } else {
             return false;
         }

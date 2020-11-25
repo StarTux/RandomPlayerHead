@@ -19,8 +19,8 @@ final class Head {
     public final String texture;
     public final String signature;
 
-    void give(Player player) {
-        player.getInventory().addItem(getItem());
+    public boolean give(Player player) {
+        return player.getInventory().addItem(getItem()).isEmpty();
     }
 
     public ItemStack getItem() {
