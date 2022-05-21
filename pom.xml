@@ -14,6 +14,12 @@
   </properties>
   <repositories>
 
+    <!-- Cavetale Repo -->
+    <repository>
+      <id>cavetale</id>
+      <url>https://cavetale.com/jenkins/plugin/repository/everything/</url>
+    </repository>
+
     <!-- Paper Repo -->
     <repository>
       <id>papermc</id>
@@ -25,9 +31,9 @@
 
     <!-- Paper API -->
     <dependency>
-      <groupId>com.destroystokyo.paper</groupId>
+      <groupId>io.papermc.paper</groupId>
       <artifactId>paper-api</artifactId>
-      <version>1.16.4-R0.1-SNAPSHOT</version>
+      <version>1.18.2-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
 
@@ -39,27 +45,18 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- Gson -->
-    <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <version>2.8.6</version>
-      <scope>compile</scope>
-    </dependency>
-
   </dependencies>
   <build>
     <finalName>${project.name}</finalName>
     <plugins>
 
-      <!-- Java 8 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.2</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>17</source>
+          <target>17</target>
           <showDeprecation>true</showDeprecation>
           <showWarnings>true</showWarnings>
           <compilerArgs>
@@ -68,7 +65,7 @@
         </configuration>
       </plugin>
 
-      <!-- Fat Jar -->
+      <!-- Executable Jar -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
