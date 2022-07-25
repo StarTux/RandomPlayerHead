@@ -30,16 +30,12 @@ public final class HeadCommand implements CommandExecutor {
         if (args.length != 1) return false;
         Player player = (Player) sender;
         String name = args[0];
+        player.sendMessage(ChatColor.YELLOW + "Fetching profile of " + name + "...");
         PlayerProfile profile = Bukkit.createProfile(name);
-        if (profile.completeFromCache(true, true)) {
-            callback(player, profile, true);
-        } else {
-            player.sendMessage(ChatColor.YELLOW + "Fetching profile of " + name + "...");
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                    boolean result = profile.complete(true, true);
-                    Bukkit.getScheduler().runTask(plugin, () -> callback(player, profile, result));
-                });
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+                boolean result = profile.complete(true, true);
+                Bukkit.getScheduler().runTask(plugin, () -> callback(player, profile, result));
+            });
         return true;
     }
 
