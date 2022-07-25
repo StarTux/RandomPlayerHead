@@ -26,15 +26,20 @@ public final class RandomPlayerHeadPlugin extends JavaPlugin {
         new HeadCommand(this).enable();
     }
 
-    public void loadHeads() {
-        File headsFolder = new File(getDataFolder(), "heads");
-        if (!headsFolder.isDirectory()) {
-            getLogger().warning("Folder 'heads' not present! No heads were loaded!");
-            return;
+    protected void loadHeads() {
+        heads.clear();
+        loadHeads(new File(getDataFolder(), "heads"));
+        loadHeads(new File("/home/mc/public/heads"));
+        if (heads.isEmpty()) {
+            getLogger().warning("No heads were loaded!");
         }
+    }
+
+    private void loadHeads(File headsFolder) {
+        if (!headsFolder.isDirectory()) return;
         Set<Head> headSet = new HashSet<>();
         try {
-            for (File file: headsFolder.listFiles()) {
+            for (File file : headsFolder.listFiles()) {
                 if (!file.getName().endsWith(".yml")) continue;
                 if (!file.isFile()) continue;
                 int count = 0;
@@ -64,7 +69,6 @@ public final class RandomPlayerHeadPlugin extends JavaPlugin {
         } catch (NullPointerException npe) {
             npe.printStackTrace();
         }
-        heads.clear();
         heads.addAll(headSet);
         getLogger().info("Loaded " + headSet.size() + " heads");
     }
