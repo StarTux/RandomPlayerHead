@@ -5,6 +5,7 @@ import com.winthier.rph.gui.Gui;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -48,6 +49,11 @@ public final class RandomPlayerHeadPlugin extends JavaPlugin implements Listener
         loadHeads(new File("/home/mc/public/heads"));
         if (heads.isEmpty()) {
             getLogger().warning("No heads were loaded!");
+        }
+        for (var group : headGroups.values()) {
+            for (var list : group.values()) {
+                Collections.sort(heads, (a, b) -> String.CASE_INSENSITIVE_ORDER.compare(a.name, b.name));
+            }
         }
     }
 
