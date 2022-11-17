@@ -123,6 +123,7 @@ public final class HeadStoreCommand extends AbstractCommand<RandomPlayerHeadPlug
         assert group != null;
         List<Head> heads = group.get(tag);
         assert heads != null;
+        Collections.sort(heads, (a, b) -> String.CASE_INSENSITIVE_ORDER.compare(a.name, b.name));
         List<MerchantRecipe> recipes = new ArrayList<>();
         for (Head head : heads) {
             MerchantRecipe recipe = new MerchantRecipe(head.getItem(), 4);

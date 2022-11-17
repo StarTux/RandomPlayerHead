@@ -4,6 +4,7 @@ import com.cavetale.core.event.player.PlayerInteractNpcEvent;
 import com.winthier.rph.gui.Gui;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -53,7 +54,9 @@ public final class RandomPlayerHeadPlugin extends JavaPlugin implements Listener
     private void loadHeads(File headsFolder) {
         if (!headsFolder.isDirectory()) return;
         try {
-            for (File file : headsFolder.listFiles()) {
+            File[] files = headsFolder.listFiles();
+            Arrays.sort(files);
+            for (File file : files) {
                 if (!file.getName().endsWith(".yml")) continue;
                 if (!file.isFile()) continue;
                 int count = 0;
