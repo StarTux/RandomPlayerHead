@@ -52,7 +52,7 @@ public final class RandomPlayerHeadPlugin extends JavaPlugin implements Listener
         }
         for (var group : headGroups.values()) {
             for (var list : group.values()) {
-                Collections.sort(heads, (a, b) -> String.CASE_INSENSITIVE_ORDER.compare(a.name, b.name));
+                Collections.sort(list, (a, b) -> String.CASE_INSENSITIVE_ORDER.compare(a.name, b.name));
             }
         }
     }
