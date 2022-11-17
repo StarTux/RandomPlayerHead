@@ -2,7 +2,9 @@ package com.winthier.rph;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
+import java.util.Set;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -11,12 +13,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import static net.kyori.adventure.text.Component.text;
 
-@Value
-final class Head {
+@Value @RequiredArgsConstructor
+public final class Head {
     public final String name;
     public final UUID uuid;
     public final String texture;
     public final String signature;
+    public final String category;
+    public final Set<String> tags;
+
+    public Head(final String name, final UUID uuid, final String texture, final String signature) {
+        this(name, uuid, texture, signature, "unknown", Set.of());
+    }
 
     public boolean give(Player player) {
         return player.getInventory().addItem(getItem()).isEmpty();

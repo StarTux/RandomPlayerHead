@@ -8,9 +8,11 @@ author: StarTux
 website: https://cavetale.com
 description: Spawn in random player heads
 
-depend: []
+depend: [Core, Mytems]
+softdepend: []
 
 commands:
+
   randomplayerhead:
     aliases: [rph]
     description: Spawn in a random player head
@@ -35,13 +37,30 @@ commands:
       /head <name> - Spawn the head
     permission: rph.head
 
+  headstore:
+    aliases: []
+    description: Open the head store
+    usage: /headstore - Open the head store
+    permission: rph.store
+
 permissions:
+
   rph.rph:
     description: Use /rph
     default: op
+
   rph.mph:
     description: Use /mph
     default: op
+
   rph.head:
     description: Use /head
+    default: op
+
+  rph.store:
+    description: Use /headstore
+    default: op
+
+  rph.store.open:
+    description: Open the store without command
     default: op
