@@ -143,6 +143,7 @@ public final class HeadStoreCommand extends AbstractCommand<RandomPlayerHeadPlug
                     openCategory(player, category, page);
                 }
             });
+        gui.setEditable(true);
         gui.doNotOpen(player);
         player.openMerchant(merchant, true);
     }
