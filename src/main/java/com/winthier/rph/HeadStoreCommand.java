@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -126,8 +127,12 @@ public final class HeadStoreCommand extends AbstractCommand<RandomPlayerHeadPlug
         List<MerchantRecipe> recipes = new ArrayList<>();
         for (Head head : heads) {
             MerchantRecipe recipe = new MerchantRecipe(head.getItem(), 4);
-            recipe.setIngredients(List.of(new ItemStack(Material.DIAMOND),
-                                          Mytems.SILVER_COIN.createItemStack(3)));
+            if (player.getGameMode() == GameMode.CREATIVE) {
+                recipe.setIngredients(List.of(new ItemStack(Material.DIAMOND)));
+            } else {
+                recipe.setIngredients(List.of(new ItemStack(Material.DIAMOND),
+                                              Mytems.SILVER_COIN.createItemStack(3)));
+            }
             recipes.add(recipe);
         }
         Merchant merchant = Bukkit.getServer().createMerchant(text(toCamelCase(" ", List.of(tag.split(" ")))
