@@ -3,7 +3,6 @@ package com.winthier.rph;
 import com.cavetale.core.command.AbstractCommand;
 import com.cavetale.core.font.GuiOverlay;
 import com.cavetale.mytems.Mytems;
-import com.cavetale.mytems.util.Items;
 import com.winthier.rph.gui.Gui;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Merchant;
 import org.bukkit.inventory.MerchantRecipe;
 import static com.cavetale.core.util.CamelCase.toCamelCase;
+import static com.cavetale.mytems.util.Items.tooltip;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
@@ -44,12 +44,12 @@ public final class HeadStoreCommand extends AbstractCommand<RandomPlayerHeadPlug
             String category = categories.get(i);
             Map<String, List<Head>> group = plugin.headGroups.get(category);
             Head head = group.values().iterator().next().get(0);
-            ItemStack icon = head.getItem();
+            ItemStack icon = head.getIcon();
             int count = 0;
             for (List<Head> heads : group.values()) {
                 count += heads.size();
             }
-            icon = Items.text(icon, List.of(text(toCamelCase(" ", List.of(category.split("-"))) + " (" + count + ")", AQUA)));
+            icon = tooltip(icon, List.of(text(toCamelCase(" ", List.of(category.split("-"))) + " (" + count + ")", AQUA)));
             gui.setItem(i, icon, click -> {
                     if (!click.isLeftClick()) return;
                     player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
@@ -88,8 +88,8 @@ public final class HeadStoreCommand extends AbstractCommand<RandomPlayerHeadPlug
             String tag = tags.get(tagIndex);
             List<Head> heads = group.get(tag);
             Head head = heads.get(0);
-            ItemStack icon = head.getItem();
-            icon = Items.text(icon, List.of(text(tag + " (" + heads.size() + ")", AQUA)));
+            ItemStack icon = head.getIcon();
+            icon = tooltip(icon, List.of(text(tag + " (" + heads.size() + ")", AQUA)));
             gui.setItem(slotIndex, icon, click -> {
                     if (!click.isLeftClick()) return;
                     player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
@@ -135,8 +135,7 @@ public final class HeadStoreCommand extends AbstractCommand<RandomPlayerHeadPlug
             }
             recipes.add(recipe);
         }
-        Merchant merchant = Bukkit.getServer().createMerchant(text(toCamelCase(" ", List.of(tag.split(" ")))
-                                                                   + " (" + heads.size() + ")"));
+        Merchant merchant = Bukkit.createMerchant(text(toCamelCase(" ", List.of(tag.split(" "))) + " (" + heads.size() + ")"));
         merchant.setRecipes(recipes);
         Gui gui = new Gui();
         gui.setItem(Gui.OUTSIDE, null, click -> {

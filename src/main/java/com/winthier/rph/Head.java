@@ -41,4 +41,15 @@ public final class Head {
         item.setItemMeta(meta);
         return item;
     }
+
+    public ItemStack getIcon() {
+        ItemStack item = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta meta = (SkullMeta) item.getItemMeta();
+        PlayerProfile profile = Bukkit.createProfile(uuid);
+        ProfileProperty property = new ProfileProperty("textures", texture, signature);
+        profile.setProperty(property);
+        meta.setPlayerProfile(profile);
+        item.setItemMeta(meta);
+        return item;
+    }
 }
