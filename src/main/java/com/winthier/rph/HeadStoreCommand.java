@@ -130,8 +130,12 @@ public final class HeadStoreCommand extends AbstractCommand<RandomPlayerHeadPlug
             if (player.getGameMode() == GameMode.CREATIVE) {
                 recipe.setIngredients(List.of(new ItemStack(Material.DIAMOND)));
             } else {
-                recipe.setIngredients(List.of(new ItemStack(Material.DIAMOND),
-                                              Mytems.SILVER_COIN.createItemStack(3)));
+                recipe.setIngredients(
+                    List.of(
+                        Mytems.RUBY.createItemStack(),
+                        Mytems.GOLDEN_COIN.createItemStack()
+                    )
+                );
             }
             recipes.add(recipe);
         }
