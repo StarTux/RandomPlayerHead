@@ -23,12 +23,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
 public final class RandomPlayerHeadPlugin extends JavaPlugin implements Listener {
+    @Getter private static RandomPlayerHeadPlugin instance;
     protected final List<Head> heads = new ArrayList<>();
     protected final Map<String, Map<String, List<Head>>> headGroups = new HashMap<>();
     protected final Set<String> categories = new HashSet<>();
     protected final Random random = new Random(System.currentTimeMillis());
     protected final Set<String> textureSet = new HashSet<>();
     private final HeadStoreCommand headStoreCommand = new HeadStoreCommand(this);
+
+    @Override
+    public void onLoad() {
+        instance = this;
+    }
 
     @Override
     public void onEnable() {

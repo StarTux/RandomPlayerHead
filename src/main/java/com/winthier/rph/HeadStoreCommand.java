@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -34,7 +35,7 @@ public final class HeadStoreCommand extends AbstractCommand<RandomPlayerHeadPlug
     }
 
     public void open(Player player) {
-        final int size = 3 * 9;
+        final int size = 6 * 9;
         Gui gui = new Gui().size(size);
         GuiOverlay.Builder overlay = GuiOverlay.BLANK.builder(size, GRAY)
             .title(text("Player Heads", BLACK));
@@ -50,12 +51,19 @@ public final class HeadStoreCommand extends AbstractCommand<RandomPlayerHeadPlug
                 count += heads.size();
             }
             icon = tooltipCustomName(icon, List.of(text(toCamelCase(" ", List.of(category.split("-"))) + " (" + count + ")", AQUA)));
-            gui.setItem(i, icon, click -> {
+            int x = (i % 7) + 1;
+            int y = (i / 7) + 2;
+            gui.setItem(x, y, icon, click -> {
                     if (!click.isLeftClick()) return;
-                    player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
+                    player.playSound(player, Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
                     openCategory(player, category, 0);
                 });
         }
+        gui.setItem(4, 0, Mytems.MAGNIFYING_GLASS.createIcon(List.of(text("Search...", BLUE))), click -> {
+                if (!click.isLeftClick()) return;
+                player.playSound(player, Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
+                new HeadSearchDialog(player).open();
+            });
         gui.title(overlay.build());
         gui.open(player);
     }
@@ -124,6 +132,19 @@ public final class HeadStoreCommand extends AbstractCommand<RandomPlayerHeadPlug
         assert group != null;
         List<Head> heads = group.get(tag);
         assert heads != null;
+        Gui gui = openMerchantGui(player, heads, text(toCamelCase(" ", List.of(tag.split(" "))) + " (" + heads.size() + ")"));
+        gui.setItem(Gui.OUTSIDE, null, click -> {
+                if (!click.isLeftClick()) return;
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
+                if (group.size() == 1) {
+                    open(player);
+                } else {
+                    openCategory(player, category, page);
+                }
+            });
+    }
+
+    public static Gui openMerchantGui(Player player, List<Head> heads, Component title) {
         List<MerchantRecipe> recipes = new ArrayList<>();
         for (Head head : heads) {
             MerchantRecipe recipe = new MerchantRecipe(head.getItem(), 4);
@@ -139,20 +160,12 @@ public final class HeadStoreCommand extends AbstractCommand<RandomPlayerHeadPlug
             }
             recipes.add(recipe);
         }
-        Merchant merchant = Bukkit.createMerchant(text(toCamelCase(" ", List.of(tag.split(" "))) + " (" + heads.size() + ")"));
+        Merchant merchant = Bukkit.createMerchant(title);
         merchant.setRecipes(recipes);
         Gui gui = new Gui();
-        gui.setItem(Gui.OUTSIDE, null, click -> {
-                if (!click.isLeftClick()) return;
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
-                if (group.size() == 1) {
-                    open(player);
-                } else {
-                    openCategory(player, category, page);
-                }
-            });
         gui.setEditable(true);
         gui.doNotOpen(player);
         player.openMerchant(merchant, true);
+        return gui;
     }
 }
