@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Merchant;
 import org.bukkit.inventory.MerchantRecipe;
 import static com.cavetale.core.util.CamelCase.toCamelCase;
-import static com.cavetale.mytems.util.Items.tooltip;
+import static com.cavetale.mytems.util.Items.tooltipCustomName;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
@@ -49,7 +49,7 @@ public final class HeadStoreCommand extends AbstractCommand<RandomPlayerHeadPlug
             for (List<Head> heads : group.values()) {
                 count += heads.size();
             }
-            icon = tooltip(icon, List.of(text(toCamelCase(" ", List.of(category.split("-"))) + " (" + count + ")", AQUA)));
+            icon = tooltipCustomName(icon, List.of(text(toCamelCase(" ", List.of(category.split("-"))) + " (" + count + ")", AQUA)));
             gui.setItem(i, icon, click -> {
                     if (!click.isLeftClick()) return;
                     player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
@@ -89,7 +89,7 @@ public final class HeadStoreCommand extends AbstractCommand<RandomPlayerHeadPlug
             List<Head> heads = group.get(tag);
             Head head = heads.get(0);
             ItemStack icon = head.getIcon();
-            icon = tooltip(icon, List.of(text(tag + " (" + heads.size() + ")", AQUA)));
+            icon = tooltipCustomName(icon, List.of(text(tag + " (" + heads.size() + ")", AQUA)));
             gui.setItem(slotIndex, icon, click -> {
                     if (!click.isLeftClick()) return;
                     player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
