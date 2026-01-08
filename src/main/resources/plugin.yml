@@ -2,7 +2,7 @@ main: com.winthier.rph.RandomPlayerHeadPlugin
 name: RandomPlayerHead
 
 version: 0.1
-api-version: '1.21.10'
+api-version: '1.21.11'
 
 author: StarTux
 website: https://cavetale.com
